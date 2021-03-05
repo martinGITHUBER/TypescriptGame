@@ -8,7 +8,8 @@ export class Game {
     Canvas.init(<HTMLCanvasElement>document.querySelector("#canvas"));
     Canvas.fill("black");
 
-    const timer = new Timer(5000, 0, alert("hi"));
+    const timer = new Timer(5000, 0, () => alert("hi"));
+    timer.start();
   }
 }
 
