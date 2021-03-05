@@ -1,5 +1,4 @@
-/* tslint:disable */
+// @ts-ignore
 import { Canvas } from './canvas.ts';
-/* tslint:enable */
 
 export { Canvas };
