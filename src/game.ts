@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { Canvas } from './ux/index.js';
+import { Canvas } from './ux/index.ts';
 /* tslint:enable */
 
 export class Game {
