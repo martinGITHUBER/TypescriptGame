@@ -43,13 +43,21 @@ export class Player implements IPlayerObject {
   public on_hit_screen_edge(edge: ScreenEdge) {
 		switch (edge) {
 			case ScreenEdge.NORTH:
-        this.position.Y = Canvas.height;
+        this.position.Y = Board.height;
 			case ScreenEdge.SOUTH:
         this.position.Y = 0;
 			case ScreenEdge.EAST:
         this.position.X = 0
 			case ScreenEdge.WEST:
-        this.position.X = Canvas.width;
+        this.position.X = Board.width;
 		}
+	}
+	
+	public set_speed(speed: number) {
+		this.speed = speed;
+	}
+
+	private update_board(position: Position) {
+		Board.move_object(this, position);
 	}
 }
