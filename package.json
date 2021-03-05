@@ -1,0 +1,19 @@
+{
+  "name": "webglgame",
+  "version": "1.0.0",
+  "description": "My first Typescript WebGL game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinGITHUBER/WebGLGame.git"
+  },
+  "author": "Martin M.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/martinGITHUBER/WebGLGame/issues"
+  },
+  "homepage": "https://github.com/martinGITHUBER/WebGLGame#readme"
+}
