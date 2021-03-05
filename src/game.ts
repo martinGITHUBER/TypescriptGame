@@ -8,3 +8,5 @@ export class Game {
     Canvas.fill("black");
   }
 }
+
+Game.init();
