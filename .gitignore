@@ -1,3 +1,8 @@
 // Node stuff
 node_modules/
 package-lock.json
+
+// Stupid .DS_Store
+**/.DS_Store
+.DS_Store
+**/**/.DS_Store
