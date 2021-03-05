@@ -8,7 +8,8 @@
     "start": "node index.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
     "lint": "./node_modules/.bin/eslint ./index.js",
-    "lint-fix": "./node_modules/.bin/eslint ./index.js --fix"
+    "lint-fix": "./node_modules/.bin/eslint ./index.js --fix",
+    "build": "./node_modules/.bin/tsc --project ./tsconfig.json"
   },
   "repository": {
     "type": "git",
