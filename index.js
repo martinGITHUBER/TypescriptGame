@@ -11,25 +11,72 @@ app.listen(3000, () => {
 });
 
 const board = {
+  width: 400
+  height: 400
 	players: []
 }
+
+const tick = setInterval(() => {
+  board.players.forEach(player => {
+    switch(player.direction.toUpperCase()):
+      case 'UP':
+        if(player.y - player.size <= 0) {
+          player.y += speed;
+          break
+        }
+
+        player.y -= speed;
+        break;
+
+      case 'DOWN':
+        if(player.y + player.size >= board.height) {
+          player.y -= speed;
+          break;
+        }
+
+        player.y += speed;
+        break;
+
+      case 'LEFT':
+        if(player.x - player.size <= 0) {
+          player.x += speed;
+          break;
+        }
+
+        player.x -= speed;
+        break;
+
+      case 'RIGHT':
+        if(player.x + player.size >= board.width) {
+          player.x -= speed;
+          break;
+        }
+
+        player.x += speed;
+        break;
+      default:
+        return
+  })
+}, 100)
 
 io.on('connection', socket => {
 	let player_name = '';
 	let in_game = false;
-	let move_cooldown;
 
 
 	socket.on('join', player => {
+    console.log(player);
 		if(board.players.find(p => p.name = player.name)){
-			return socket.emit("invalid_name");
+			return socket.emit('invalid_name');
 		}
 
 		const player_obj = {
 			name: player.name,
+      id: socket.id,
+      size: 10,
 			x: 200,
 			y: 200,
-			speed,
+			speed: 5,
 			direction: 'NONE'
 		};
 
@@ -37,27 +84,20 @@ io.on('connection', socket => {
 
 		player_name == player.name;
 		in_game = true;
-		socket.emit("joined", player_obj);
+		socket.emit('joined', player_obj);
 	});
 
 	const interval = setInterval(100, () => {
-		socket.emit("update", board);
+		socket.emit('update', board);
 	});
 
 	socket.on('move', direction => {
+    if(!in_game) return;
 		const player = board.players.find(p => p.name == player_name);
-		if(!in_game || !player.can_move) return;
 
-		switch(direction) {
-			case 'UP':
-				player.y += player.speed;
-			case 'DOWN':
-				player.y -= player.speed;
-			
-		}
-
-		player.can_move = false;
-		move_cooldown = setTimeout(() => player.can_move == true, 100)
+		if(direction.toUpperCase() == 'UP' && direction.toUpperCase() == 'DOWN' && direction.toUpperCase() == 'RIGHT' && direction.toUpperCase() == 'LEFT') {
+      player.direction = direction.toUpperCase();
+    }
 	});
 
 	socket.on('disconnect', () => {
