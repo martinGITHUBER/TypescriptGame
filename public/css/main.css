@@ -5,17 +5,26 @@
 
 body {
   text-align: center;
+  margin: 0px;
 }
 
 #username-input {
-	margin-top: 45vh;
-	text-align: center;
 	border: solid 4px black;
 	border-radius: 0px;
 	width: 15em;
 	height: 2em;
 	padding: 0px;
 	font-size: 1.2em;
+	margin-top: calc(30vh + 1em);
+}
+
+#username-input, #connecting-h2 {
+	text-align: center;
+}
+
+#connecting-h2 {
+	margin-top: calc(30vh + 1em);
+	font-size: 1.6em;
 }
 
 #username-input:focus {

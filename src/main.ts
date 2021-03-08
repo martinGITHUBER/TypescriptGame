@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 import Game  from './game';
-import * as $ from "jquery";
+import $ from "jquery";
 
 setTimeout(() => {
 	const socket = io();
@@ -8,19 +8,18 @@ setTimeout(() => {
 	// Game.init(io);
 	console.log('connecting');
 	socket.on('connect', () => {
-		console.log('Connected');
-		$('#connecting-h2').fadeOut(1000, 'swing', () => {
-			$('#connecting-h2').html('<input id="username-input" placeholder="Username"></input>');
-			$('#username-input').fadeIn(1000);
+		$('#connecting-h2').fadeOut(500, 'swing', () => {
+			$('#connecting-h2').replaceWith('<input id="username-input" placeholder="Username" style="display:none;"></input>');
+			$('#username-input').fadeIn(500);
 		});
 	});
 	
 	socket.on('disconnect', () => {
-		console.log('Disconnected');
-		$('#username-input').fadeOut(1000, 'swing', () => {
-			$('#username-input').html('<h2 id="connecting-h2">Connecting...<h2>');
-			$('#connecting-h2').fadeIn(1000);
-		});
-		
+		setTimeout(() => {
+			$('#username-input').fadeOut(500, 'swing', () => {
+				$('#username-input').replaceWith('<h2 id="connecting-h2" style="display:none;">Connecting...<h2>');
+				$('#connecting-h2').fadeIn(500);
+			});
+		}, 1000);
 	});
 }, 1000);
