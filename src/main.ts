@@ -12,6 +12,16 @@ setTimeout(() => {
 			$('#connecting-h2').replaceWith('<input id="username-input" placeholder="Username" style="display:none;"></input>');
 			$('#username-input').fadeIn(500);
 		});
+
+		$('#username-input').keyup(event => {
+			if(event.key == 'Enter') {
+				if($('#username-input').text().length > 0) {
+					socket.emit('join', $('#username-input').text());
+				}
+			} else if(event.key != '\\') {
+				if($('#username-input').text().length > 12) event.preventDefault();
+			}
+		});
 	});
 	
 	socket.on('disconnect', () => {
