@@ -1,13 +1,16 @@
-// @ts-ignore
-import { io } from "socket.io-client";
+import { Socket } from "socket.io-client";
+import { Timer } from "./types/timer";
 
-export class Game {
-  // @ts-ignore
-  static socket: Socket;
+export default class Game {	
+	// @ts-ignore
+	static socket: Socket;
+	static readonly clock: Timer;
 
-  static init() {
-    Game.socket = io();
-  }
+	static init(socket: Socket) {
+
+	}
+
+	static ready() {
+
+	}
 }
-
-Game.init();

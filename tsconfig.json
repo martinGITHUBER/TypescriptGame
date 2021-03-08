@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "es6",
+    "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "es6",
@@ -19,5 +19,9 @@
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+	"public",
+	"node_modules/*"
   ]
 }
