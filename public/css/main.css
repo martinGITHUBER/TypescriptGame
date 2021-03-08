@@ -6,3 +6,8 @@
 body {
   margin: 0px;
 }
+
+#username {
+  margin: auto;
+  display: inline;
+}

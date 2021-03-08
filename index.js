@@ -1,24 +1,25 @@
 const express = require('express');
+const app = express();
+
+const server = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(server);
 
-const app = express();
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(3000, () => {
+server.listen(3000, () => {
 	console.log('server started');
 });
 
 const board = {
-  width: 400
-  height: 400
-	players: []
+  width: 400,
+  height: 400,
+	players: [],
 }
 
 const tick = setInterval(() => {
   board.players.forEach(player => {
-    switch(player.direction.toUpperCase()):
+    switch(player.direction.toUpperCase()){
       case 'UP':
         if(player.y - player.size <= 0) {
           player.y += speed;
@@ -56,13 +57,14 @@ const tick = setInterval(() => {
         break;
       default:
         return
+    }
   })
 }, 100)
 
 io.on('connection', socket => {
 	let player_name = '';
 	let in_game = false;
-
+  console.log(`Socket connected with id: ${socket.id}`);
 
 	socket.on('join', player => {
     console.log(player);
@@ -84,12 +86,13 @@ io.on('connection', socket => {
 
 		player_name == player.name;
 		in_game = true;
+    console.log(`User joine game. Object: ${player}`);
 		socket.emit('joined', player_obj);
 	});
 
-	const interval = setInterval(100, () => {
+	const interval = setInterval(() => {
 		socket.emit('update', board);
-	});
+	}, 100);
 
 	socket.on('move', direction => {
     if(!in_game) return;
