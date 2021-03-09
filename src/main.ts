@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import Game  from './game';
 import $ from "jquery";
- 
+
 setTimeout(() => {
 	const socket = io();
 
