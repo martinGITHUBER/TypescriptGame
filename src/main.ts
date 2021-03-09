@@ -13,23 +13,26 @@ setTimeout(() => {
 			$('#username-input').fadeIn(500);
 		});
 
-		$('#username-input').keyup(event => {
+		document.addEventListener('keydown', event => {
 			if(event.key == 'Enter') {
-				if($('#username-input').text().length > 0) {
-					socket.emit('join', $('#username-input').text());
+				if((<any>$('#username-input').val()).length > 0) {
+					socket.emit('join', $('#username-input').val());
 				}
-			} else if(event.key != '\\') {
-				if($('#username-input').text().length > 12) event.preventDefault();
+			} else if(!['Backspace', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+				// @ts-ignore
+				if((<any>$('#username-input').val()).length >= 12) event.preventDefault()// $('#username-input').val($('#username-input').val().split('').splice(0, $('#username-input').val().split('').length - 1).join(""));
 			}
+		});
+
+		socket.on('invalid_name', () => {
+			$('#username-input').appendTo('<h3 style="color:red;">Name already taken<h3>');
 		});
 	});
 	
 	socket.on('disconnect', () => {
+		document.getElementsByTagName('body')[0].innerHTML = '<h2 id="connecting-h2" style="display:none;">Connecting...<h2>';
 		setTimeout(() => {
-			$('#username-input').fadeOut(500, 'swing', () => {
-				$('#username-input').replaceWith('<h2 id="connecting-h2" style="display:none;">Connecting...<h2>');
-				$('#connecting-h2').fadeIn(500);
-			});
+			$('#connecting-h2').fadeIn(500);
 		}, 1000);
 	});
 }, 1000);

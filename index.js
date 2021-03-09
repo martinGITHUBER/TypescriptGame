@@ -14,12 +14,15 @@ server.listen(3000, () => {
 const board = {
 	width: 400,
 	height: 400,
-	players: [],
+	players: [{
+		name: 'test',
+	}],
 };
 
 // eslint-disable-next-line no-unused-vars
 const tick = setInterval(() => {
 	board.players.forEach(player => {
+		if(player.name == 'test') return;
 		switch(player.direction.toUpperCase()) {
 		case 'UP':
 			if(player.y - player.size <= 0) {
