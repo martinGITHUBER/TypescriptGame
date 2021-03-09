@@ -20,78 +20,92 @@ const board = {
 };
 
 // eslint-disable-next-line no-unused-vars
-const tick = setInterval(() => {
+/*const tick = setInterval(() => {
 	board.players.forEach(player => {
 		if(player.name == 'test') return;
 		switch(player.direction.toUpperCase()) {
-		case 'UP':
-			if(player.y - player.size <= 0) {
-				player.y += player.speed;
-				break;
-			}
+      case 'UP':
+        if(player.y - player.size <= 0) {
+          player.y += player.speed;
+          break;
+        }
 
-			player.y -= player.speed;
-			break;
+        player.y -= player.speed;
+        break;
 
-		case 'DOWN':
-			if(player.y + player.size >= board.height) {
-				player.y -= player.speed;
-				break;
-			}
+      case 'DOWN':
+        if(player.y + player.size >= board.height) {
+          player.y -= player.speed;
+          break;
+        }
 
-			player.y += player.speed;
-			break;
+        player.y += player.speed;
+        break;
 
-		case 'LEFT':
-			if(player.x - player.size <= 0) {
-				player.x += player.speed;
-				break;
-			}
+      case 'LEFT':
+        if(player.x - player.size <= 0) {
+          player.x += player.speed;
+          break;
+        }
 
-			player.x -= player.speed;
-			break;
+        player.x -= player.speed;
+        break;
 
-		case 'RIGHT':
-			if(player.x + player.size >= board.width) {
-				player.x -= player.speed;
-				break;
-			}
+      case 'RIGHT':
+        if(player.x + player.size >= board.width) {
+          player.x -= player.speed;
+          break;
+        }
 
-			player.x += player.speed;
-			break;
-		default:
-			return;
+        player.x += player.speed;
+        break;
+      default:
+        return;
 		}
 	});
-}, 100);
+}, 100); */
 
 io.on('connection', socket => {
-	const player_name = '';
+  console.log(board);
+	let player_name = '';
 	let in_game = false;
 	console.log(`Socket connected with id: ${socket.id}`);
 
 	socket.on('join', name => {
-		console.log(name);
-		if(board.players.find(p => p.name = name)) {
+    console.log(board);
+		console.log(`old name: ${player_name}\nnew name: ${name}`);
+    if(player_name && board.players.find(p => p.name == name && p.id != socket.id)) {
+      console.log('invalid name');
 			return socket.emit('invalid_name');
 		}
+    if(board.players.find(p => p.id == socket.id) && player_name != name) {
+      console.log('name change')
+      board.players.find(p => p.id == socket.id).name = name;
+      return socket.emit('reconect', {
+        name
+      });
+    } else if(board.players.find(p => p.id == socket.id) && player_name == name) {
+      console.log('same name return');
+      return;
+    }
+		
 
-		const player_obj = {
-			name,
+		board.players.push({
+			name: name,
 			id: socket.id,
 			size: 10,
 			x: 200,
 			y: 200,
 			speed: 5,
 			direction: 'NONE',
-		};
+		});
 
-		board.players.push(player_obj);
+    console.log(board.players.find(p => p.name == name));
 
-		player_name == name;
+		player_name = name;
 		in_game = true;
 		console.log(`User joined game. Name: ${name}`);
-		socket.emit('joined', player_obj);
+		socket.emit('joined', board.players.find(p => p.name == name));
 	});
 
 	const interval = setInterval(() => {
