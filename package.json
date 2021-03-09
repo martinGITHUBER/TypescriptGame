@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/martinGITHUBER/WebGLGame.git"
+    "url": "git+https://github.com/martinGITHUBER/TypescriptGame.git"
   },
   "author": "Martin M.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/martinGITHUBER/WebGLGame/issues"
+    "url": "https://github.com/martinGITHUBER/TypescriptGame/issues"
   },
-  "homepage": "https://github.com/martinGITHUBER/WebGLGame#readme",
+  "homepage": "https://github.com/martinGITHUBER/TypescriptGame#readme",
   "dependencies": {
     "express": "^4.17.1",
     "jquery": "^3.6.0",
