@@ -20,7 +20,7 @@ const board = {
 };
 
 // eslint-disable-next-line no-unused-vars
-/*const tick = setInterval(() => {
+/* const tick = setInterval(() => {
 	board.players.forEach(player => {
 		if(player.name == 'test') return;
 		switch(player.direction.toUpperCase()) {
@@ -66,30 +66,31 @@ const board = {
 }, 100); */
 
 io.on('connection', socket => {
-  console.log(board);
+	console.log(board);
 	let player_name = '';
 	let in_game = false;
 	console.log(`Socket connected with id: ${socket.id}`);
 
 	socket.on('join', name => {
-    console.log(board);
+		console.log(board);
 		console.log(`old name: ${player_name}\nnew name: ${name}`);
-    if(board.players.find(p => p.name == name && p.id != socket.id)) {
-      console.log('invalid name');
+		if(board.players.find(p => p.name == name && p.id != socket.id)) {
+			console.log('invalid name');
 			return socket.emit('invalid_name');
 		}
-    if(board.players.find(p => p.id == socket.id) && player_name != name) {
-      console.log('name change')
-      board.players.find(p => p.id == socket.id).name = name;
-      player_name = name;
-      return socket.emit('reconect', {
-        name
-      });
-    } else if(board.players.find(p => p.id == socket.id) && player_name == name) {
-      console.log('same name return');
-      return;
-    }
-		
+		if(board.players.find(p => p.id == socket.id) && player_name != name) {
+			console.log('name change');
+			board.players.find(p => p.id == socket.id).name = name;
+			player_name = name;
+			return socket.emit('reconect', {
+				name,
+			});
+		}
+		else if(board.players.find(p => p.id == socket.id) && player_name == name) {
+			console.log('same name return');
+			return;
+		}
+
 
 		board.players.push({
 			name: name,
@@ -101,7 +102,7 @@ io.on('connection', socket => {
 			direction: 'NONE',
 		});
 
-    console.log(board.players.find(p => p.name == name));
+		console.log(board.players.find(p => p.name == name));
 
 		player_name = name;
 		in_game = true;
@@ -125,10 +126,10 @@ io.on('connection', socket => {
 	socket.on('disconnect', () => {
 		clearInterval(interval);
 
-    if(player_name) {
-      board.players.splice(board.players.indexOf(board.players.find(p => p.id == socket.id)), 1)
-    }
+		if(player_name) {
+			board.players.splice(board.players.indexOf(board.players.find(p => p.id == socket.id)), 1);
+		}
 
-    console.log(board);
+		console.log(board);
 	});
 });
