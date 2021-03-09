@@ -74,13 +74,14 @@ io.on('connection', socket => {
 	socket.on('join', name => {
     console.log(board);
 		console.log(`old name: ${player_name}\nnew name: ${name}`);
-    if(player_name && board.players.find(p => p.name == name && p.id != socket.id)) {
+    if(board.players.find(p => p.name == name && p.id != socket.id)) {
       console.log('invalid name');
 			return socket.emit('invalid_name');
 		}
     if(board.players.find(p => p.id == socket.id) && player_name != name) {
       console.log('name change')
       board.players.find(p => p.id == socket.id).name = name;
+      player_name = name;
       return socket.emit('reconect', {
         name
       });
@@ -124,6 +125,10 @@ io.on('connection', socket => {
 	socket.on('disconnect', () => {
 		clearInterval(interval);
 
-		board.players.splice(board.players.indexOf(board.players.find(p => p.name == player_name)), 1);
+    if(player_name) {
+      board.players.splice(board.players.indexOf(board.players.find(p => p.id == socket.id)), 1)
+    }
+
+    console.log(board);
 	});
 });
